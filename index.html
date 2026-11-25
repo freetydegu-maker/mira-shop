@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mira Shop | Online Store</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+  color: #222;
+}
+
+header {
+  background: #171717;
+  color: white;
+  padding: 18px;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  color: #ffb84d;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+nav button, .card button {
+  border: none;
+  padding: 11px 15px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+nav button {
+  background: #ffb84d;
+  font-weight: bold;
+}
+
+.hero {
+  background: #222;
+  color: white;
+  text-align: center;
+  padding: 55px 15px;
+}
+
+.hero h1 {
+  font-size: 35px;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  margin-bottom: 20px;
+  color: #ddd;
+}
+
+.search {
+  width: 90%;
+  max-width: 450px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+}
+
+.categories {
+  text-align: center;
+  padding: 25px 10px;
+}
+
+.categories button {
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 20px;
+  background: #e8e8e8;
+  cursor: pointer;
+}
+
+.categories button:hover {
+  background: #ffb84d;
+}
+
+h2 {
+  text-align: center;
+  margin: 20px;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  padding: 15px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px #ddd;
+}
+
+.card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.card h3 {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.price {
+  color: #b56b00;
+  font-weight: bold;
+  padding: 0 10px;
+}
+
+.card button {
+  background: #222;
+  color: white;
+  width: calc(100% - 20px);
+  margin: 10px;
+}
+
+.card button:hover {
+  background: #b56b00;
+}
+
+#cart {
+  display: none;
+  background: white;
+  margin: 15px;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.cart-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.cart-actions button {
+  padding: 10px;
+  margin: 5px;
+  background: #222;
+  color: white;
+  border: none;
+  border-radius: 7px;
+}
+
+footer {
+  background: #171717;
+  color: white;
+  text-align: center;
+  padding: 30px;
+  margin-top: 30px;
+}
+
+@media (min-width: 700px) {
+  .products {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<nav>
+  <div class="logo">MIRA SHOP</div>
+  <button onclick="showCart()">
+    🛒 Cart (<span id="count">0</span>)
+  </button>
+</nav>
+</header>
+
+<section class="hero">
+  <h1>Welcome to Mira Shop</h1>
+  <p>Everything you need, all in one place.</p>
+  <input
+    class="search"
+    id="search"
+    placeholder="Search products..."
+    oninput="displayProducts()"
+  >
+</section>
+
+<section class="categories">
+  <button onclick="filterCategory('All')">All</button>
+  <button onclick="filterCategory('Fashion')">Fashion</button>
+  <button onclick="filterCategory('Electronics')">Electronics</button>
+  <button onclick="filterCategory('Accessories')">Accessories</button>
+  <button onclick="filterCategory('Home')">Home</button>
+</section>
+
+<h2>Our Products</h2>
+
+<section class="products" id="products"></section>
+
+<section id="cart">
+  <h2>Your Shopping Cart</h2>
+  <div id="cartItems"></div>
+  <h3 id="total">Total: 0 ETB</h3>
+
+  <div class="cart-actions">
+    <button onclick="checkout()">Place Order</button>
+    <button onclick="showCart()">Close Cart</button>
+  </div>
+</section>
+
+<footer>
+  <h2>MIRA SHOP</h2>
+  <p>Your favorite online shopping destination.</p>
+  <p>© 2026 Mira Shop. All rights reserved.</p>
+</footer>
+
+<script>
+const items = [
+  {
+    name: "Classic T-Shirt",
+    price: 800,
+    category: "Fashion",
+    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"
